@@ -30,14 +30,17 @@ public class AuthFilter implements ContainerRequestFilter {
 	private static Logger LOG = Logger.getLogger(AuthFilter.class.getName());
 
 	public static String COOKIE_NAME = "authtoken";
-	
-	
-	@Context UriInfo uriInfo;
+
+	@Context
+	UriInfo uriInfo;
 
 	@Override
 	public void filter(ContainerRequestContext context) throws IOException {
 
-		URI loginFormUri = uriInfo.resolve(UriBuilder.fromResource(LoginFormResource.class).queryParam("redirectUri", context.getUriInfo().getRequestUri().toASCIIString())
+		URI loginFormUri = uriInfo.resolve(UriBuilder
+				.fromResource(LoginFormResource.class)
+				.queryParam("redirectUri",
+						context.getUriInfo().getRequestUri().toASCIIString())
 				.build());
 
 		Cookie cookie = context.getCookies().get(COOKIE_NAME);
@@ -59,12 +62,12 @@ public class AuthFilter implements ContainerRequestFilter {
 			LOG.log(Level.SEVERE, "Auth-token integrity error", e);
 			throw new WebApplicationException(Response.status(403).build());
 		}
-		
-		LOG.info("Data: " + data);
 
 		String[] fields = data.split("\\|");
-		if(fields.length != 3) {
-			LOG.log(Level.SEVERE, "Auth-token format error, unable to extract fields from " + data);
+		if (fields.length != 3) {
+			LOG.log(Level.SEVERE,
+					"Auth-token format error, unable to extract fields from "
+							+ data);
 			throw new WebApplicationException(Response.status(403).build());
 		}
 
@@ -75,9 +78,10 @@ public class AuthFilter implements ContainerRequestFilter {
 		long now = System.currentTimeMillis() / 1000;
 		if (now > expires) {
 			context.abortWith(Response.temporaryRedirect(loginFormUri).build());
+			return;
 		}
 
-		context.setSecurityContext(new TokenSecurityContext(username,realname));
+		context.setSecurityContext(new TokenSecurityContext(username, realname));
 	}
 
 }
