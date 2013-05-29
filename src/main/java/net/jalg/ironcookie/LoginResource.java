@@ -33,7 +33,7 @@ public class LoginResource {
 	URI redirectUri;
 
 	@POST
-	public Response getLoginForm() {
+	public Response processLoginForm() {
 
 		long now = System.currentTimeMillis() / 1000;
 		long expires = now + 60L; // Expires in 1 Minute

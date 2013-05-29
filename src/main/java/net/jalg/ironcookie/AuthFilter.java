@@ -36,7 +36,7 @@ public class AuthFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext context) throws IOException {
-
+		
 		URI loginFormUri = uriInfo.resolve(UriBuilder
 				.fromResource(LoginFormResource.class)
 				.queryParam("redirectUri",
