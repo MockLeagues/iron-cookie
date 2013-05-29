@@ -8,7 +8,7 @@ jiron ensures that the data (e.g. user login, realname, token expire time) store
 cannot be read or modified by the client or any man in the middle.
 
 Note that this does not solve the problem that with cookie-based authentication anyone
-in possessionof the cookie can send requests indistinguishable from requests by
+in possession of the cookie can send requests indistinguishable from requests by
 the real cookie-owner. You still need transport layer security to protect the cookie from
 being stolen.
 
@@ -17,7 +17,7 @@ How it Works
 
 [DashboardResource](https://github.com/algermissen/iron-cookie/blob/master/src/main/java/net/jalg/ironcookie/DashboardResource.java) is the protected resource.
 
-[LoginFormResource](https://github.com/algermissen/iron-cookie/blob/master/src/main/java/net/jalg/ironcookie/LoginFormResource.java) authenticates user credentials and issues Cookie. Here, jiron-sealing is done.
+[LoginResource](https://github.com/algermissen/iron-cookie/blob/master/src/main/java/net/jalg/ironcookie/LoginResource.java) authenticates user credentials and issues Cookie. Here, jiron-sealing is done.
   
 [AuthFilter](https://github.com/algermissen/iron-cookie/blob/master/src/main/java/net/jalg/ironcookie/AuthFilter.java) is a JAX-RS 2.0 filter class, enforing cookie-authentication. Here, jiron-unsealing is done, if the cookie
 is present. Otherwise the client is redirected to the login form.
